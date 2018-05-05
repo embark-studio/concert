@@ -1,4 +1,6 @@
 {
+  "name": "Your Name",
+  "version": "0.0.1",
   "license": "BSD",
   "dependencies": {
     "body-parser": "^1.18.2",
