@@ -2,7 +2,7 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op
 const _ = require('lodash')
 
-const config = require('../../../../config/database')
+const config = require('../../../config/database')
 const options = {
     dialect: 'postgres',
     operatorsAliases: {

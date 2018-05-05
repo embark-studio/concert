@@ -1,25 +1,13 @@
 {
+  "name": "project-concert",
+  "version": "0.0.1",
   "license": "BSD",
+  "devDependencies": {},
+  "bin": {
+    "project-concert": "bin/generate.js"
+  },
   "dependencies": {
-    "body-parser": "^1.18.2",
-    "express": "^4.16.3",
-    "lodash": "^4.17.10",
-    "pg": "^7.4.2",
-    "pg-hstore": "^2.3.2",
-    "pm2": "^2.10.3",
-    "repl.history": "^0.1.4",
-    "sequelize": "^4.37.6",
-    "sql": "^0.78.0"
-  },
-  "devDependencies": {
-    "local-repl": "^3.1.0",
-    "nodemon": "^1.17.3"
-  },
-  "scripts": {
-    "server": "nodemon index",
-    "s": "yarn server",
-    "console": "REPL=true node --experimental-repl-await ./repl",
-    "c": "yarn console",
-    "start": "yarn pm2 start index.js"
+    "copy-dir": "^0.3.0",
+    "ncp": "^2.0.0"
   }
 }
