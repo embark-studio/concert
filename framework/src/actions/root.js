@@ -1,12 +1,17 @@
-module.exports = async (action)=>{
-    if(action.type === "get"){
+module.exports = async ({type, payload})=>{
+    const [
+        method,
+        resource
+    ] = type;
+    
+    if(method === "get" && resource == ''){
         return {
-            example: "REGARDS"
-        }
-    }else{
-        return {
-            example: "DEFAULT ABC"
+            rels: {
+                method: 'get',
+                path: '/users'
+            }
         }
     }
+    
     return false;
 }

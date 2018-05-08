@@ -1,4 +1,4 @@
-const {User} = require('../stores')
+const {Project} = require('../stores')
 const match = require('url-pattern-match')
 const strongParams = require('../params')
 
@@ -9,17 +9,17 @@ module.exports = async ({type: [method, ...url], payload})=>{
     ] = url;
     
     try{
-        if(resource === 'users'){
+        if(resource === 'projects'){
             if(method === "get"){
                 if(id){
-                    return await User.find(id)
+                    return await Project.find(id)
                 }else{
-                    return await User.all()
+                    return await Project.all()
                 }
             }
             if(method == 'post'){
-                return await User.create(
-                    strongParams.users(payload)
+                return await Project.create(
+                    strongParams.projects(payload)
                 )
             }
         }

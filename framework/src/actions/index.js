@@ -1,6 +1,10 @@
 const root = require('./root')
 const users = require('./users')
-module.exports = {
-    '/': root,
-    '/users': users
+const projects = require('./projects')
+module.exports = async (action)=>{
+    return (
+        await users(action) ||
+        await projects(action) ||
+        await root(action)
+    )
 }

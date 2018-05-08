@@ -1,17 +1,13 @@
 
-const Model = require('./database')
+const Model = require('./base')
 
 class User extends Model {
-  static schema(schema){
-    return {
-      id: {
-        primaryKey: true,
-        type: schema.INTEGER
-      },
-      email: schema.STRING,
-      firstName: schema.STRING,
-      lastName: schema.STRING
-    }
+  constructor(values = {}){
+    super()
+    this.id = values.id
+    this.email = values.email,
+    this.firstName = values.firstName,
+    this.lastName = values.lastName
   }
 } 
 

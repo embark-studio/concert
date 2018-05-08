@@ -3,12 +3,22 @@
 const copydir = require('copy-dir')
 const fs = require('fs')
 const path = require('path')
-copydir.sync(path.join(__dirname, '../framework'), process.cwd());
+const [command, generator] = process.argv.slice(2, process.argv.length)
+const generators = require('./generators')
+switch(command){
+    case 'new':
+        const target = path.join(process.cwd(), generator)
+        copydir.sync(path.join(__dirname, '../framework'), target);
+        
+        process.chdir(`./${generator}`)
 
-const package = JSON.parse(fs.readFileSync('package.json'))
-
-
-package.name = process.cwd().split("/").reverse()[0]
-
-fs.writeFileSync('package.json', JSON.stringify(package, null, 4))
-
+        const package = JSON.parse(fs.readFileSync('package.json'))
+        
+        package.name = generator
+        
+        fs.writeFileSync('package.json', JSON.stringify(package, null, 4))
+        break;
+    case 'generate':
+        generators[generator](...process.argv.slice(4, process.argv.length))
+        break;
+}

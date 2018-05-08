@@ -4,7 +4,7 @@
   "license": "BSD",
   "devDependencies": {},
   "bin": {
-    "project-concert": "bin/generate.js"
+    "concert": "bin/generate.js"
   },
   "dependencies": {
     "copy-dir": "^0.3.0",
