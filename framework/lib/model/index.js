@@ -1,21 +1,22 @@
 
 const _ = require('lodash')
-const { Pool } = require('pg')
-const config = require('../../../config/database')
+const db = require('../db')
+const config = require('../../config/database')
 const pluralize = require('pluralize')
 const uuidv4 = require('uuid/v4');
 const helpers = require('./helpers')
 
-const pool = new Pool({
-    ...config
-})
+pool = db.query.pool
 
 module.exports = class {
     static get modelName(){
         return _(pluralize(this.name)).camelCase();
     }
     static get connection(){
-        return pool
+        return db
+    }
+    static execute (query, args){
+        return db.query(query, args)
     }
     static async all(){
         const query = [
@@ -24,7 +25,7 @@ module.exports = class {
         ].join(" ")
 
         return (
-            await this.connection.query(query, [])
+            await this.execute(query, [])
         ).rows.map((row)=>
             new this(row)
         )
@@ -34,11 +35,34 @@ module.exports = class {
             const query = [
                 'SELECT * FROM ',
                 `"${this.modelName}"`,
+                'ORDER BY "createdAt" ASC',
                 `LIMIT ${parseInt(limit)}`
             ].join(" ")
     
             const rows = (
-                await this.connection.query(query, [])
+                await this.execute(query, [])
+            ).rows.map((row)=> new this(row))
+            if(limit == 1){
+                return rows[0]
+            }else{
+                return rows
+            }
+            
+        }else{
+            throw 'LIMIT MUST BE NUMBER';
+        }
+    }
+    static async last(limit = 1){
+        if(typeof limit == "number"){
+            const query = [
+                'SELECT * FROM ',
+                `"${this.modelName}"`,
+                'ORDER BY "createdAt" DESC',
+                `LIMIT ${parseInt(limit)}`
+            ].join(" ")
+    
+            const rows = (
+                await this.execute(query, [])
             ).rows.map((row)=> new this(row))
             if(limit == 1){
                 return rows[0]
@@ -70,7 +94,7 @@ module.exports = class {
         ].join(" ")
 
         return (
-            await this.connection.query(query, args)
+            await this.execute(query, args)
         ).rows.map((row)=>
             new this(row)
         )
@@ -83,15 +107,20 @@ module.exports = class {
         delete values.updatedAt
 
 
+        
         const keys = Object.keys(values).map((k)=> `"${k}"` ).join(', ');
         const v = Object.keys(values).map((_, i)=>`$${i + 1}`).join(', ');
      
-        const query = `INSERT INTO ${this.modelName} (${keys}, "updatedAt", "createdAt") VALUES(${v}, NOW(), NOW()) RETURNING *`;
+        const query = `INSERT INTO "${this.modelName}" (${keys}, "updatedAt", "createdAt") VALUES(${v}, NOW(), NOW()) RETURNING *`;
         const args = Object.values(values);
 
-        return new this(
-            (await this.connection.query(query, args)).rows[0]
-        )
+        try{
+            return new this(
+                (await this.execute(query, args)).rows[0]
+            )
+        }catch(error){
+            consol.log(error)
+        }
     }
 
     static async update(_wheres={}, values = {}, _this){
@@ -107,7 +136,7 @@ module.exports = class {
         const [wheres, args] = helpers.where(_wheres, _args)
         const query = `update ${this.modelName} set ${values} WHERE ${wheres} RETURNING *`;
         
-        const response = (await this.connection.query(query, args)).rows[0]
+        const response = (await this.execute(query, args)).rows[0]
         if(_this){
             Object.keys(response).forEach((key)=>{
                 _this[key] = response[key]

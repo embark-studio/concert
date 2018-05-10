@@ -1,16 +1,22 @@
 {
-    "name": "kevin",
+    "name": "concerted-test",
     "version": "0.0.1",
     "license": "BSD",
     "dependencies": {
         "body-parser": "^1.18.2",
+        "chalk": "^2.4.1",
+        "diff": "^3.5.0",
+        "diff-json-structure": "^1.0.8",
         "express": "^4.16.3",
+        "faker": "^4.1.0",
         "lodash": "^4.17.10",
+        "moment": "^2.22.1",
         "pg": "^7.4.2",
         "pg-hstore": "^2.3.2",
         "pluralize": "^7.0.0",
         "pm2": "^2.10.3",
         "repl.history": "^0.1.4",
+        "require-reload": "^0.2.2",
         "sequelize": "^4.37.6",
         "squel": "^5.12.1",
         "strong-params": "^0.7.1",
@@ -26,6 +32,12 @@
         "s": "yarn server",
         "console": "REPL=true node --experimental-repl-await ./repl",
         "c": "yarn console",
-        "start": "yarn pm2 start index.js"
+        "start": "yarn pm2 start index.js",
+        "db:migrate": "node ./db db:migrate",
+        "db:rollback": "node ./db db:rollback",
+        "db:seed": "node ./db db:seed",
+        "db:reset": "node ./db db:reset",
+        "test": "node ./tests",
+        "test:watch": "WATCH=true nodemon ./tests"
     }
 }

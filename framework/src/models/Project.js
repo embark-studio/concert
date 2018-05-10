@@ -1,5 +1,5 @@
-const Model = require('./base');
-class Project extends Model {
+const Store = require('../../lib/model');
+class Project extends Store {
      constructor (values){
          super() 
         this.id = values.id, 

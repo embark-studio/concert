@@ -1,6 +1,23 @@
-const usersCreate = require('./usersCreate')
-const projectsCreate = require('./projectsCreate')
+const M_201805101855_creatures = require('./M_201805101855_creatures');
+const M_201805093076_createProfiles = require('./M_201805093076_createProfiles')
+const M_201805090984_createUsers = require('./M_201805090984_createUsers')
+
+
+
+
+
+
 module.exports = [
-    {name: 'Users Create', migrate: usersCreate, id: '96dadf3d-43e2-40a5-a0a6-c631ae301ab1'},
-    {name: 'Projects Create', migrate: projectsCreate, id: '170665a0-c39c-45ec-9ff6-20ca819dbfea'}
+    {
+        description: "description",
+        migrate: M_201805090984_createUsers, id: "M_201805090984_createUsers"
+    },
+    {
+        description: "description",
+        migrate: M_201805093076_createProfiles, id: "M_201805093076_createProfiles"
+    },
+    {
+        description: "TODO: Describe what this does",
+        migrate: M_201805101855_creatures, id: "M_201805101855_creatures"
+    }
 ]

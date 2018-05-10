@@ -1,4 +1,4 @@
-const {Project} = require('../stores')
+const {Project} = require('../models')
 const match = require('url-pattern-match')
 const strongParams = require('../params')
 
@@ -21,6 +21,15 @@ module.exports = async ({type: [method, ...url], payload})=>{
                 return await Project.create(
                     strongParams.projects(payload)
                 )
+            }
+            if(method == 'put'){
+                return new Project({
+                    createdAt: "the Created At",
+                    updatedAt: "the Created At",
+                    id: "the id",
+                    name: "the name",
+                    description: "the description",
+                })
             }
         }
 

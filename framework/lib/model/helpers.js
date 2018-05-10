@@ -3,7 +3,7 @@ module.exports = {
         if(Array.isArray(values)){
             return [
                 values.join(' AND '),
-                []
+                args
             ]
         }else if(typeof values == 'object'){
             return [
@@ -12,6 +12,14 @@ module.exports = {
                     return `"${key}"=$${args.length}`
                 }).join(' AND '),
                 args
+            ]
+        }
+    },
+    insert: (values, args)=>{
+        if(typeof values == 'object'){
+            return [
+                args.concat(Object.values(values)),
+                `("${Object.keys(values).join('", "')}") VALUES ("${values.map((_value)=> Object.values(_value) )}")`
             ]
         }
     }

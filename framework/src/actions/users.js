@@ -1,4 +1,4 @@
-const {User} = require('../stores')
+const {User} = require('../models')
 const match = require('url-pattern-match')
 const strongParams = require('../params')
 
@@ -23,7 +23,6 @@ module.exports = async ({type: [method, ...url], payload})=>{
                 )
             }
         }
-
     }catch(error){
         console.error(error)
         return false

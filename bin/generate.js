@@ -17,6 +17,7 @@ switch(command){
         package.name = generator
         
         fs.writeFileSync('package.json', JSON.stringify(package, null, 4))
+
         break;
     case 'generate':
         generators[generator](...process.argv.slice(4, process.argv.length))
